@@ -1,13 +1,18 @@
 package com.spring.angular.ecommerce.controllers;
 
 import com.spring.angular.ecommerce.dto.AuthenticationRequest;
+import com.spring.angular.ecommerce.dto.SignupRequest;
+import com.spring.angular.ecommerce.dto.UserDto;
 import com.spring.angular.ecommerce.entities.User;
 import com.spring.angular.ecommerce.repositories.UserRepository;
+import com.spring.angular.ecommerce.services.AuthService;
 import com.spring.angular.ecommerce.utils.JwtUtil;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,10 +30,11 @@ import java.util.Optional;
 public class AuthController {
     private static final String HEADER_STRING = "Authorization";
     private static final String TOKEN_PREFIX = "Bearer ";
-    private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
     private final UserRepository userRepository;
     private final JwtUtil jwtUtil;
+    private final AuthenticationManager authenticationManager;
+    private final AuthService authService;
 
     @PostMapping("/authenticate")
     public void createAuthenticationToken(
@@ -61,4 +67,16 @@ public class AuthController {
         }
 
     }
+
+    @PostMapping("/sign-up")
+    public ResponseEntity<?> signupUser(@RequestBody SignupRequest signupRequest) {
+        if(authService.hasUserWithEmail(signupRequest.getEmail())) {
+            return new ResponseEntity<>("User already exists", HttpStatus.NOT_ACCEPTABLE);
+        }
+
+        UserDto userDto = authService.createUser(signupRequest);
+        return new ResponseEntity<>(userDto, HttpStatus.OK);
+    }
+
+
 }
