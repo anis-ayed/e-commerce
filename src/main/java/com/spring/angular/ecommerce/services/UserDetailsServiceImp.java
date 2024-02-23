@@ -15,8 +15,8 @@ import java.util.Optional;
 @AllArgsConstructor
 public class UserDetailsServiceImp implements UserDetailsService {
     private final UserRepository userRepository;
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> user = userRepository.findUserByEmail(username);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Optional<User> user = userRepository.findUserByEmail(email);
         if (user.isEmpty()) throw new UsernameNotFoundException("Username not found", null);
         return new org.springframework.security.core.userdetails
                 .User(
