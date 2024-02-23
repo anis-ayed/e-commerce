@@ -1,6 +1,7 @@
 package com.spring.angular.ecommerce.controllers;
 
 import com.spring.angular.ecommerce.dto.AuthenticationRequest;
+import com.spring.angular.ecommerce.dto.HttpErrorResponse;
 import com.spring.angular.ecommerce.dto.SignupRequest;
 import com.spring.angular.ecommerce.dto.UserDto;
 import com.spring.angular.ecommerce.entities.User;
@@ -63,6 +64,10 @@ public class AuthController {
                                     .put("userId", user.get().getId())
                                     .put("role", user.get().getRole())
                                     .toString());
+            response.addHeader("Access-Control-Expose-Headers", "Authorization");
+            response.addHeader("Access-control-Allow-Headers", "Authorization, X-PINGOTHER, Origin, " +
+                    "X-Requested-With, Content-Type, Accept, X-Custom-header"
+            );
             response.addHeader(HEADER_STRING, TOKEN_PREFIX + jwt);
         }
 
@@ -70,8 +75,11 @@ public class AuthController {
 
     @PostMapping("/sign-up")
     public ResponseEntity<?> signupUser(@RequestBody SignupRequest signupRequest) {
-        if(authService.hasUserWithEmail(signupRequest.getEmail())) {
-            return new ResponseEntity<>("User already exists", HttpStatus.NOT_ACCEPTABLE);
+        if (authService.hasUserWithEmail(signupRequest.getEmail())) {
+            return new ResponseEntity<>(
+                    HttpErrorResponse.builder().message("User already exists").build(),
+                    HttpStatus.NOT_ACCEPTABLE
+            );
         }
 
         UserDto userDto = authService.createUser(signupRequest);

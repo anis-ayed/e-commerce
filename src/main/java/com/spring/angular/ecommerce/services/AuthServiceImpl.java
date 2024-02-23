@@ -5,6 +5,7 @@ import com.spring.angular.ecommerce.dto.UserDto;
 import com.spring.angular.ecommerce.entities.User;
 import com.spring.angular.ecommerce.enums.UserRole;
 import com.spring.angular.ecommerce.repositories.UserRepository;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,9 +15,8 @@ import org.springframework.stereotype.Service;
 public class AuthServiceImpl implements AuthService {
 
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public UserDto createUser(SignupRequest signupRequest) {
         User user = new User();
@@ -27,12 +27,29 @@ public class AuthServiceImpl implements AuthService {
 
         User createdUser = userRepository.save(user);
 
-        UserDto userDto = new UserDto();
-        userDto.setId(createdUser.getId());
-        return userDto;
+        return UserDto
+                .builder()
+                .id(createdUser.getId())
+                .userRole(createdUser.getRole())
+                .name(createdUser.getName())
+                .email(createdUser.getEmail())
+                .build();
     }
 
     public Boolean hasUserWithEmail(String email) {
         return userRepository.findUserByEmail(email).isPresent();
+    }
+
+    @PostConstruct
+    public void createAdminAccount() {
+        User adminAccount = userRepository.findByRole(UserRole.ADMIN);
+        if (adminAccount == null) {
+            User user = new User();
+            user.setEmail("admin@test.com");
+            user.setName("admin");
+            user.setRole(UserRole.ADMIN);
+            user.setPassword(new BCryptPasswordEncoder().encode("123456"));
+            userRepository.save(user);
+        }
     }
 }

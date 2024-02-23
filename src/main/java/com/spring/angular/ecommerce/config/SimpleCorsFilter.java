@@ -19,7 +19,9 @@ public class SimpleCorsFilter implements Filter {
 
     @Value("${app.client.url}")
     private String clientAppUrl = "";
-    public SimpleCorsFilter() {}
+
+    public SimpleCorsFilter() {
+    }
 
     @Override
     public void doFilter(ServletRequest servletRequest,
@@ -32,7 +34,7 @@ public class SimpleCorsFilter implements Filter {
 
         response.setHeader("Access-Control-Allow-Origin", originHeader);
         response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT");
-        response.setHeader("Access-Control-Allow-Headers", "authorization, content-type, xsrf-token");
+        response.setHeader("Access-Control-Allow-Headers", "Authorization, content-type, xsrf-token");
         response.setHeader("Access-Control-Max-Age", "3600");
 
         if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
