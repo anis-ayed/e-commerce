@@ -48,11 +48,12 @@ public class JwtUtil {
     }
 
     private Claims extactAllClaims(String token) {
-        return Jwts.parser()
-                .setSigningKey(getSignKey())
+        return Jwts
+                .parser()
+                .verifyWith(getSignKey())
                 .build()
-                .parseClaimsJwt(token)
-                .getBody();
+                .parseSignedClaims(token)
+                .getPayload();
     }
 
     private Boolean isTokenExpired(String token) {
