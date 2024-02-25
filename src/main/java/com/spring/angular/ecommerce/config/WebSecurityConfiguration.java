@@ -30,6 +30,7 @@ public class WebSecurityConfiguration {
                 .authorizeHttpRequests(
                         req -> req.requestMatchers("/authenticate", "/sign-up", "/order/**")
                                 .permitAll()
+                                .requestMatchers("/v3/api-docs/**", "/swagger-ui/**").permitAll()
                                 .requestMatchers("/api/**")
                                 .authenticated()
                 )
