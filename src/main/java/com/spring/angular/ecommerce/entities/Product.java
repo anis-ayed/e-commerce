@@ -44,6 +44,7 @@ public class Product {
                 .price(price)
                 .byteImg(img)
                 .categoryId(category.getId())
+                .categoryName(category.getName())
                 .build();
     }
 }
