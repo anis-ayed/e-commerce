@@ -56,4 +56,44 @@ public class AdminProductController {
     public ResponseEntity<List<ProductDto>> getAllProducts() {
         return ResponseEntity.ok(productService.getAllProducts());
     }
+
+
+    /**
+     * Retrieves a list of products by searching for a specific product name.
+     *
+     * @param productName The name of the product to search for.
+     * @return ResponseEntity containing a list of ProductDto and HTTP status code.
+     */
+    @Operation(summary = "Get products by name", description = "Retrieves a list of products by searching for a specific product name.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved the list of products"),
+            @ApiResponse(responseCode = "404", description = "Products not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    @GetMapping("/products/search/{productName}")
+    public ResponseEntity<List<ProductDto>> getAllProductsByName(@PathVariable String productName) {
+        return ResponseEntity.ok(productService.getAllProductsByName(productName));
+    }
+
+
+    /**
+     * Deletes a product by its ID.
+     *
+     * @param idProduct The ID of the product to be deleted.
+     * @return ResponseEntity indicating the result of the deletion operation.
+     */
+    @Operation(summary = "Delete a product by ID", description = "Deletes a product by its ID.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Product successfully deleted"),
+            @ApiResponse(responseCode = "404", description = "Product not found")
+    })
+    @DeleteMapping("/products/{idProduct}")
+    public ResponseEntity<Void> deleteProductById(@PathVariable Long idProduct) {
+        boolean isDeleted = productService.deleteProductById(idProduct);
+        if (isDeleted) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
+    }
+
 }
