@@ -30,7 +30,7 @@ public class WebSecurityConfiguration {
                 .authorizeHttpRequests(
                         req -> req.requestMatchers("/authenticate", "/sign-up", "/order/**")
                                 .permitAll()
-                                .requestMatchers("/v3/api-docs/**", "/swagger-ui/**").permitAll()
+                                .requestMatchers("/", "/v3/api-docs/**", "/swagger-ui/**").permitAll()
                                 .requestMatchers("/api/**")
                                 .authenticated()
                 )
@@ -42,11 +42,6 @@ public class WebSecurityConfiguration {
                                         (request, response, accessDeniedException) -> response.setStatus(403)
                                 )
                                 .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
-                /*  .logout(l->l
-                          .logoutUrl("/logout")
-                          .addLogoutHandler(logoutHandler)
-                          .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext()
-                          ))*/
                 .build();
 
     }
