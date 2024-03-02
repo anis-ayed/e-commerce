@@ -1,23 +1,19 @@
 package com.spring.angular.ecommerce.dto;
 
+import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductDto {
-
+public class CouponDto {
   private Long id;
   private String name;
-  private Long price;
-  private String description;
-  private byte[] byteImg;
-  private String categoryName;
-  private Long categoryId;
-  private MultipartFile img;
+  private String code;
+  private Long discount;
+  private Date expirationDate;
 }

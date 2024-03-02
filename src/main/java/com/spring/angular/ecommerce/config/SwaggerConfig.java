@@ -9,12 +9,13 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @OpenAPIDefinition()
 public class SwaggerConfig {
-    @Bean
-    public OpenAPI swaggerApiConfig() {
-        var info = new Info()
-                .title("E-Commerce")
-                .description("E-Commerce Spring Boot Project SwaggerUI integration")
-                .version("1.0");
-        return new OpenAPI().info(info);
-    }
+  @Bean
+  public OpenAPI swaggerApiConfig() {
+    var info =
+        new Info()
+            .title("E-Commerce")
+            .description("E-Commerce Spring Boot Project SwaggerUI integration")
+            .version("1.0");
+    return new OpenAPI().info(info);
+  }
 }
