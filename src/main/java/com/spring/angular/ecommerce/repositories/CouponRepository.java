@@ -1,8 +1,11 @@
 package com.spring.angular.ecommerce.repositories;
 
-import com.spring.angular.ecommerce.entities.Category;
+import com.spring.angular.ecommerce.entities.Coupon;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CategoryRepository extends JpaRepository<Category, Long> {}
+public interface CouponRepository extends JpaRepository<Coupon, Long> {
+
+  boolean existsByCode(String code);
+}

@@ -2,8 +2,11 @@ package com.spring.angular.ecommerce.services;
 
 import com.spring.angular.ecommerce.dto.SignupRequest;
 import com.spring.angular.ecommerce.dto.UserDto;
+import com.spring.angular.ecommerce.entities.Order;
 import com.spring.angular.ecommerce.entities.User;
+import com.spring.angular.ecommerce.enums.OrderStatus;
 import com.spring.angular.ecommerce.enums.UserRole;
+import com.spring.angular.ecommerce.repositories.OrderRepository;
 import com.spring.angular.ecommerce.repositories.UserRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -14,42 +17,48 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
 
+  private final UserRepository userRepository;
+  private final OrderRepository orderRepository;
 
-    private final UserRepository userRepository;
+  public UserDto createUser(SignupRequest signupRequest) {
+    User user = new User();
+    user.setEmail(signupRequest.getEmail());
+    user.setName(signupRequest.getName());
+    user.setPassword(new BCryptPasswordEncoder().encode(signupRequest.getPassword()));
+    user.setRole(UserRole.CUSTOMER);
+    User createdUser = userRepository.save(user);
 
+    Order order =
+        Order.builder()
+            .amount(0L)
+            .totalAmount(0L)
+            .discount(0L)
+            .user(createdUser)
+            .orderStatus(OrderStatus.Pending)
+            .build();
+    orderRepository.save(order);
+    return UserDto.builder()
+        .id(createdUser.getId())
+        .userRole(createdUser.getRole())
+        .name(createdUser.getName())
+        .email(createdUser.getEmail())
+        .build();
+  }
 
-    public UserDto createUser(SignupRequest signupRequest) {
-        User user = new User();
-        user.setEmail(signupRequest.getEmail());
-        user.setName(signupRequest.getName());
-        user.setPassword(new BCryptPasswordEncoder().encode(signupRequest.getPassword()));
-        user.setRole(UserRole.CUSTOMER);
+  public Boolean hasUserWithEmail(String email) {
+    return userRepository.findUserByEmail(email).isPresent();
+  }
 
-        User createdUser = userRepository.save(user);
-
-        return UserDto
-                .builder()
-                .id(createdUser.getId())
-                .userRole(createdUser.getRole())
-                .name(createdUser.getName())
-                .email(createdUser.getEmail())
-                .build();
+  @PostConstruct
+  public void createAdminAccount() {
+    User adminAccount = userRepository.findByRole(UserRole.ADMIN);
+    if (adminAccount == null) {
+      User user = new User();
+      user.setEmail("admin@test.com");
+      user.setName("admin");
+      user.setRole(UserRole.ADMIN);
+      user.setPassword(new BCryptPasswordEncoder().encode("123456"));
+      userRepository.save(user);
     }
-
-    public Boolean hasUserWithEmail(String email) {
-        return userRepository.findUserByEmail(email).isPresent();
-    }
-
-    @PostConstruct
-    public void createAdminAccount() {
-        User adminAccount = userRepository.findByRole(UserRole.ADMIN);
-        if (adminAccount == null) {
-            User user = new User();
-            user.setEmail("admin@test.com");
-            user.setName("admin");
-            user.setRole(UserRole.ADMIN);
-            user.setPassword(new BCryptPasswordEncoder().encode("123456"));
-            userRepository.save(user);
-        }
-    }
+  }
 }

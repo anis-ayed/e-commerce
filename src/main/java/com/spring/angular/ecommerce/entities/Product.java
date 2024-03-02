@@ -17,34 +17,33 @@ import org.hibernate.annotations.OnDeleteAction;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Product {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String name;
-    private Long price;
-    @Lob
-    private String description;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @Lob
-    @Column(columnDefinition = "longblob")
-    private byte[] img;
+  private String name;
+  private Long price;
+  @Lob private String description;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "category_id", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIgnore
-    private Category category;
+  @Lob
+  @Column(columnDefinition = "longblob")
+  private byte[] img;
 
-    public ProductDto getDto() {
-        return ProductDto
-                .builder()
-                .id(id)
-                .name(name)
-                .description(description)
-                .price(price)
-                .byteImg(img)
-                .categoryId(category.getId())
-                .categoryName(category.getName())
-                .build();
-    }
+  @ManyToOne(fetch = FetchType.LAZY, optional = false)
+  @JoinColumn(name = "category_id", nullable = false)
+  @OnDelete(action = OnDeleteAction.CASCADE)
+  @JsonIgnore
+  private Category category;
+
+  public ProductDto getDto() {
+    return ProductDto.builder()
+        .id(id)
+        .name(name)
+        .description(description)
+        .price(price)
+        .byteImg(img)
+        .categoryId(category.getId())
+        .categoryName(category.getName())
+        .build();
+  }
 }

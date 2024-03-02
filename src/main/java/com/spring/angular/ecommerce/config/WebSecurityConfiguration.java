@@ -21,40 +21,39 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class WebSecurityConfiguration {
-    private final JwtRequestFilter jwtRequestFilter;
+  private final JwtRequestFilter jwtRequestFilter;
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        return httpSecurity
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(
-                        req -> req.requestMatchers("/authenticate", "/sign-up", "/order/**")
-                                .permitAll()
-                                .requestMatchers("/", "/v3/api-docs/**", "/swagger-ui/**").permitAll()
-                                .requestMatchers("/api/**")
-                                .authenticated()
-                )
-                .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
-                .exceptionHandling(
-                        e -> e.accessDeniedHandler(
-                                        (request, response, accessDeniedException) -> response.setStatus(403)
-                                )
-                                .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
-                .build();
+  @Bean
+  public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+    return httpSecurity
+        .csrf(AbstractHttpConfigurer::disable)
+        .authorizeHttpRequests(
+            req ->
+                req.requestMatchers("/authenticate", "/sign-up", "/order/**")
+                    .permitAll()
+                    .requestMatchers("/", "/v3/api-docs/**", "/swagger-ui/**")
+                    .permitAll()
+                    .requestMatchers("/api/**")
+                    .authenticated())
+        .sessionManagement(
+            session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
+        .exceptionHandling(
+            e ->
+                e.accessDeniedHandler(
+                        (request, response, accessDeniedException) -> response.setStatus(403))
+                    .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
+        .build();
+  }
 
-    }
+  @Bean
+  public PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
+  }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
-        return configuration.getAuthenticationManager();
-    }
-
-
+  @Bean
+  public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration)
+      throws Exception {
+    return configuration.getAuthenticationManager();
+  }
 }
