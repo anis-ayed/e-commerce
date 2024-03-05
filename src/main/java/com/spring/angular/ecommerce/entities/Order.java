@@ -1,5 +1,7 @@
 package com.spring.angular.ecommerce.entities;
 
+
+import com.spring.angular.ecommerce.dto.OrderDto;
 import com.spring.angular.ecommerce.enums.OrderStatus;
 import jakarta.persistence.*;
 import java.util.Date;
@@ -20,19 +22,37 @@ public class Order {
 
   private String orderDescription;
   private Date date;
-  private Long amount;
+  private double amount;
   private String address;
   private String payment;
   private OrderStatus orderStatus;
-  private Long totalAmount;
-  private Long discount;
+  private double totalAmount;
+  private double discount;
   private UUID trackingId;
 
-  @OneToOne(cascade = CascadeType.MERGE)
+  @ManyToOne(cascade = CascadeType.MERGE)
   @JoinColumn(name = "user_id", referencedColumnName = "id")
   private User user;
 
+  @OneToOne(cascade = CascadeType.MERGE)
+  @JoinColumn(name = "coupon_id", referencedColumnName = "id")
+  private Coupon coupon;
+
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "order")
-  @ToString.Exclude
   private List<CartItems> cartItems;
+
+  public OrderDto getOrderDto() {
+    return OrderDto.builder()
+        .id(id)
+        .orderDescription(orderDescription)
+        .date(date)
+        .amount(amount)
+        .address(address)
+        .orderStatus(orderStatus)
+        .discount(discount)
+        .trackingId(trackingId)
+        .userName(user.getName())
+        .couponName(coupon != null ? coupon.getName() : null)
+        .build();
+  }
 }
