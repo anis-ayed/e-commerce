@@ -18,13 +18,14 @@ public class OrderDto {
 
   private String orderDescription;
   private Date date;
-  private Long amount;
+  private double amount;
   private String address;
   private String payment;
   private OrderStatus orderStatus;
-  private Long totalAmount;
-  private Long discount;
+  private double totalAmount;
+  private double discount;
   private UUID trackingId;
   private String userName;
+  private String couponName;
   private List<CartItemsDto> cartItems;
 }
