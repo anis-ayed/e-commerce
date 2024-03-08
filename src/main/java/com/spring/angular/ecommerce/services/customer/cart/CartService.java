@@ -3,6 +3,7 @@ package com.spring.angular.ecommerce.services.customer.cart;
 import com.spring.angular.ecommerce.dto.AddProductInCartDto;
 import com.spring.angular.ecommerce.dto.OrderDto;
 import com.spring.angular.ecommerce.dto.PlaceOrderDto;
+import java.util.List;
 import org.springframework.http.ResponseEntity;
 
 public interface CartService {
@@ -17,4 +18,6 @@ public interface CartService {
   OrderDto decreaseProductQuantity(AddProductInCartDto addProductInCartDto);
 
   OrderDto placeOrder(PlaceOrderDto placeOrderDto);
+
+  List<OrderDto> getMyPlacedOrders(Long userId);
 }
