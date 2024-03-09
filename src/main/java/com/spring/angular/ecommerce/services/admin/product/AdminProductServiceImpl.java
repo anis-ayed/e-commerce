@@ -1,4 +1,4 @@
-package com.spring.angular.ecommerce.services.admin;
+package com.spring.angular.ecommerce.services.admin.product;
 
 import com.spring.angular.ecommerce.dto.ProductDto;
 import com.spring.angular.ecommerce.entities.Category;
@@ -48,5 +48,37 @@ public class AdminProductServiceImpl implements AdminProductService {
       return true;
     }
     return false;
+  }
+
+  public ProductDto getProductById(Long productId) {
+    return productRepository
+        .findById(productId)
+        .orElseThrow(() -> new IllegalArgumentException("Product not found with id : " + productId))
+        .getDto();
+  }
+
+  public ProductDto updateProduct(Long productId, ProductDto productDto) throws IOException {
+    Product product =
+        productRepository
+            .findById(productId)
+            .orElseThrow(
+                () ->
+                    new IllegalArgumentException(
+                        "Product not found with productId : " + productId));
+    Category category =
+        categoryRepository
+            .findById(productDto.getCategoryId())
+            .orElseThrow(
+                () ->
+                    new IllegalArgumentException(
+                        "Category not found with categoryId : " + productDto.getCategoryId()));
+    product.setName(productDto.getName());
+    product.setPrice(productDto.getPrice());
+    product.setDescription(productDto.getDescription());
+    product.setCategory(category);
+    if (productDto.getImg() != null) {
+      product.setImg(productDto.getImg().getBytes());
+    }
+    return productRepository.save(product).getDto();
   }
 }

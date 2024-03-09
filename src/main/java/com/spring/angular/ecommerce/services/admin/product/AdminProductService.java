@@ -1,4 +1,4 @@
-package com.spring.angular.ecommerce.services.admin;
+package com.spring.angular.ecommerce.services.admin.product;
 
 import com.spring.angular.ecommerce.dto.ProductDto;
 import java.io.IOException;
@@ -12,4 +12,8 @@ public interface AdminProductService {
   List<ProductDto> getAllProductsByName(String productName);
 
   boolean deleteProductById(Long id);
+
+  ProductDto getProductById(Long productId);
+
+  ProductDto updateProduct(Long productId, ProductDto productDto) throws IOException;
 }

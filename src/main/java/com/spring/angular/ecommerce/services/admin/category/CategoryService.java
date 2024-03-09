@@ -1,4 +1,4 @@
-package com.spring.angular.ecommerce.services.admin;
+package com.spring.angular.ecommerce.services.admin.category;
 
 import com.spring.angular.ecommerce.dto.CategoryDto;
 import com.spring.angular.ecommerce.entities.Category;

@@ -1,7 +1,7 @@
 package com.spring.angular.ecommerce.controllers.admin;
 
 import com.spring.angular.ecommerce.dto.OrderDto;
-import com.spring.angular.ecommerce.services.admin.AdminOrderService;
+import com.spring.angular.ecommerce.services.admin.order.AdminOrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;

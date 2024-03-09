@@ -1,4 +1,4 @@
-package com.spring.angular.ecommerce.services.customer;
+package com.spring.angular.ecommerce.services.customer.product;
 
 import com.spring.angular.ecommerce.dto.ProductDto;
 import com.spring.angular.ecommerce.entities.Product;
