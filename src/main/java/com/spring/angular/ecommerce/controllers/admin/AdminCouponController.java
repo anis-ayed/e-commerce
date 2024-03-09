@@ -2,7 +2,7 @@ package com.spring.angular.ecommerce.controllers.admin;
 
 import com.spring.angular.ecommerce.entities.Coupon;
 import com.spring.angular.ecommerce.exceptions.ValidationException;
-import com.spring.angular.ecommerce.services.admin.AdminCouponService;
+import com.spring.angular.ecommerce.services.admin.coupon.AdminCouponService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;

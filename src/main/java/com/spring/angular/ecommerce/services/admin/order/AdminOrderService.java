@@ -1,4 +1,4 @@
-package com.spring.angular.ecommerce.services.admin;
+package com.spring.angular.ecommerce.services.admin.order;
 
 import com.spring.angular.ecommerce.dto.OrderDto;
 import java.util.List;

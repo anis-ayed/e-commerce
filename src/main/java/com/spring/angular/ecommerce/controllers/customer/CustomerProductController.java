@@ -1,7 +1,7 @@
 package com.spring.angular.ecommerce.controllers.customer;
 
 import com.spring.angular.ecommerce.dto.ProductDto;
-import com.spring.angular.ecommerce.services.customer.CustomerProductService;
+import com.spring.angular.ecommerce.services.customer.product.CustomerProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;

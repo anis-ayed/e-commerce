@@ -6,7 +6,6 @@ import com.spring.angular.ecommerce.dto.OrderDto;
 import com.spring.angular.ecommerce.dto.PlaceOrderDto;
 import com.spring.angular.ecommerce.entities.*;
 import com.spring.angular.ecommerce.enums.OrderStatus;
-import com.spring.angular.ecommerce.exceptions.OrderNotFoundException;
 import com.spring.angular.ecommerce.exceptions.ValidationException;
 import com.spring.angular.ecommerce.repositories.*;
 import java.util.Date;
@@ -215,13 +214,11 @@ public class CartServiceImpl implements CartService {
     if (userId == null) {
       throw new IllegalArgumentException("userId cannot be null");
     }
-
-    List<Order> orders =
-        orderRepository.findByUserIdAndOrderStatusIn(
-            userId, List.of(OrderStatus.Placed, OrderStatus.Shipped, OrderStatus.Delivered));
-    if (orders.isEmpty()) {
-      throw new OrderNotFoundException(String.format("No orders found for user ID: %d", userId));
-    }
-    return orders.stream().map(Order::getOrderDto).toList();
+    return orderRepository
+        .findByUserIdAndOrderStatusIn(
+            userId, List.of(OrderStatus.Placed, OrderStatus.Shipped, OrderStatus.Delivered))
+        .stream()
+        .map(Order::getOrderDto)
+        .toList();
   }
 }

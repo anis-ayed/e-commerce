@@ -2,7 +2,7 @@ package com.spring.angular.ecommerce.controllers.admin;
 
 import com.spring.angular.ecommerce.dto.CategoryDto;
 import com.spring.angular.ecommerce.entities.Category;
-import com.spring.angular.ecommerce.services.admin.CategoryService;
+import com.spring.angular.ecommerce.services.admin.category.CategoryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;

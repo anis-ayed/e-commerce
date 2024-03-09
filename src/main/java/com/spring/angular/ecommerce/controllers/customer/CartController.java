@@ -3,7 +3,6 @@ package com.spring.angular.ecommerce.controllers.customer;
 import com.spring.angular.ecommerce.dto.AddProductInCartDto;
 import com.spring.angular.ecommerce.dto.OrderDto;
 import com.spring.angular.ecommerce.dto.PlaceOrderDto;
-import com.spring.angular.ecommerce.exceptions.OrderNotFoundException;
 import com.spring.angular.ecommerce.exceptions.ValidationException;
 import com.spring.angular.ecommerce.services.customer.cart.CartService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -180,7 +179,6 @@ public class CartController {
    *     placed orders. - Status code: 200 OK - The request was successful. - Status code: 404 Not
    *     Found - The user with the provided ID was not found.
    * @throws IllegalArgumentException if the provided `userId` is null.
-   * @throws OrderNotFoundException if no orders are found for the given user.
    */
   @GetMapping("/my-orders/{userId}")
   public ResponseEntity<List<OrderDto>> getMyPlacedOrders(@PathVariable Long userId) {
