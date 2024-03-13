@@ -182,7 +182,7 @@ public class AdminProductController {
       @io.swagger.v3.oas.annotations.parameters.RequestBody(
               description = "Updated product information",
               required = true)
-          @RequestBody
+          @ModelAttribute
           ProductDto productDto)
       throws IOException {
     return ResponseEntity.ok(adminProductService.updateProduct(productId, productDto));
