@@ -11,6 +11,7 @@ import com.spring.angular.ecommerce.utils.JwtUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
@@ -30,6 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
+@Tag(name = "Authentication", description = "Endpoints for authentication")
 public class AuthController {
   private static final String HEADER_STRING = "Authorization";
   private static final String TOKEN_PREFIX = "Bearer ";
