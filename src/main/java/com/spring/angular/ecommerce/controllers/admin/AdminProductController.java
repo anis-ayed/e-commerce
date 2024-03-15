@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/admin")
 @RequiredArgsConstructor
-@Tag(name = "Products")
+@Tag(name = "Product administration", description = "Endpoints for managing products")
 public class AdminProductController {
   private final AdminProductService adminProductService;
   private final FAQService faqService;

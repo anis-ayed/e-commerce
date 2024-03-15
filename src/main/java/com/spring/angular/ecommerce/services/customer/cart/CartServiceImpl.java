@@ -221,4 +221,14 @@ public class CartServiceImpl implements CartService {
         .map(Order::getOrderDto)
         .toList();
   }
+
+  public OrderDto searchOrderByTrackingId(UUID trackingId) {
+    Order order =
+        orderRepository
+            .findByTrackingId(trackingId)
+            .orElseThrow(
+                () ->
+                    new IllegalArgumentException("Order not found with trackingId: " + trackingId));
+    return order.getOrderDto();
+  }
 }

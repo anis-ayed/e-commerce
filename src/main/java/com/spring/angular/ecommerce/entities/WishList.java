@@ -1,47 +1,43 @@
 package com.spring.angular.ecommerce.entities;
 
-import com.spring.angular.ecommerce.dto.ReviewDto;
+import com.spring.angular.ecommerce.dto.WishListDto;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Review {
+@Builder
+public class WishList {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-
-  private Long rating;
-  @Lob private String description;
-
-  @Column(columnDefinition = "longblob")
-  @Lob
-  private byte[] img;
-
-  @ManyToOne(fetch = FetchType.LAZY, optional = false)
-  @JoinColumn(name = "user_id", nullable = false)
-  @OnDelete(action = OnDeleteAction.CASCADE)
-  private User user;
 
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "product_id", nullable = false)
   @OnDelete(action = OnDeleteAction.CASCADE)
   private Product product;
 
-  public ReviewDto getReviewDto() {
-    return ReviewDto.builder()
+  @ManyToOne(fetch = FetchType.LAZY, optional = false)
+  @JoinColumn(name = "user_id", nullable = false)
+  @OnDelete(action = OnDeleteAction.CASCADE)
+  private User user;
+
+  public WishListDto getWishListDto() {
+    return WishListDto.builder()
         .id(id)
-        .rating(rating)
-        .description(description)
-        .returnedImg(img)
+        .price(product.getPrice())
         .userId(user.getId())
+        .returnedImg(product.getImg())
+        .productDescription(product.getDescription())
         .productId(product.getId())
-        .username(user.getName())
+        .productName(product.getName())
         .build();
   }
 }
